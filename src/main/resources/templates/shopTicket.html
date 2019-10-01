@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购票</title>
+
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{css/shards.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome-min.css}"></link>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="js/bootstrapvalidate.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <style>
+        .mv-info p {
+            margin-bottom: .5rem;
+        }
+
+        .mv-info .mv-header>h1 {
+            font-size: 35px;
+        }
+
+        .mv-header>p {
+            display: inline-block;
+            font-size: 16px;
+            background-color: #444;
+            color: #fff;
+            line-height: 26px;
+            border-radius: 3px;
+            padding: 0 10px;
+        }
+        .mv-contout > dl > dd {
+            border-bottom: 1px dotted #999;
+
+        }
+        .mv-contout > dl > dd > strong{
+            display: inline-block;
+            font-weight: bold;
+            line-height: 2rem;
+            height: 2rem;
+            width: 95px;
+        }
+
+        dt {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body class="pt-3">
+    <div th:replace="components/nav::nav"></div>
+    <!--头部-->
+    <div class="container mt-3">
+        <div class="d-flex">
+            <img src="images/mv-detail.jpg" alt="" height="340">
+            <div class="mv-info ml-3">
+                <div class="mv-header">
+                    <h1 class="mv-title">电影名称</h1>
+                    <p class="mv-other">111分钟 - 剧情/灾难</p>
+                </div>
+                <div class="mv-contout">
+                    <dl>
+                        <dd>
+                            <strong>导演:</strong>
+                            <span>刘伟强</span>
+                        </dd>
+                        <dd>
+                            <strong>导演:</strong>
+                            <span>刘伟强</span>
+                        </dd>
+                        <dd>
+                            <strong>导演:</strong>
+                            <span>刘伟强</span>
+                        </dd>
+                        <dd>
+                            <strong>导演:</strong>
+                            <span>刘伟强</span>
+                        </dd>
+                        <dt>
+                            <strong style="font-weight: bold;">剧情:</strong>
+                            <div>
+                                电影《中国机长》根据2018年5月14日四川航空3U8633航班机组成功处置特情真实事件改编：机组执行航班任务时，在万米高空突遇驾驶舱风挡玻璃爆裂脱落、座舱释压的极端罕见险情，生死关头，他们临危不乱、果断应对、正确处置，确保了机上
+                            </div>
+                        </dt>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <!--订票区域-->
+        <div class="row mt-3 pb-3">
+            <div class="col-md-6 d-flex justify-content-around mt-3" th:each="mvlist:${#numbers.sequence(1,20)}">
+                <div class="flex-fill" style="font-size: 24px;">中国影城</div>
+                <div class="px-5">
+                    <button class="btn btn-primary btn-sm btn-pill">
+                        <i class="fa fa-angle-down"></i>
+                        <span>选座购票</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

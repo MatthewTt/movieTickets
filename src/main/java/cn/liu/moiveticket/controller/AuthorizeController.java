@@ -1,7 +1,8 @@
-package cn.liu.moiveticket.controller.web;
+package cn.liu.moiveticket.controller;
 
 import cn.liu.moiveticket.dto.AccessTokenDTO;
 import cn.liu.moiveticket.dto.GithubUser;
+import cn.liu.moiveticket.pojo.User;
 import cn.liu.moiveticket.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ public class AuthorizeController {
     @Value("${github.client.redirect_uri}")
     private String clientRedirect;
 
+
     @GetMapping("/logincb")
     public String loginCb(@RequestParam(name="code") String code,
                           @RequestParam(name="state") String state,
@@ -39,12 +41,19 @@ public class AuthorizeController {
         accessTokenDTO.setRedirect_uri(clientRedirect);
 
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser user = githubProvider.getUser(accessToken);
+        GithubUser githubUser = githubProvider.getUser(accessToken);
 
         // 运用session保存登录态
-        if(user != null) {
+        if(githubUser != null) {
+            
             // 登录成功
-            request.getSession().setAttribute("user",user);
+            /*User user = new User();
+            user.setUsername(githubUser.getLogin());
+            user.setPassword("123456");
+            user.setAccess_type(0);
+            userMapper.insert(user);
+            request.getSession().setAttribute("user",githubUser);*/
+
             return "redirect:/"; // 将地址清空，重新进入index
         }else {
             // 登录失败

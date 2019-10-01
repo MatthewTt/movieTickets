@@ -35,7 +35,7 @@
             padding-bottom: 5px;
         }
 
-        .isplay>h3 {
+        .isplay > h3 {
             font-size: 1.5rem;
             margin-bottom: .45rem;
             border-bottom: 1px solid #eaeaea;
@@ -45,51 +45,39 @@
             margin-bottom: 0.25rem;
         }
 
-        .movie-info .title{
+        .movie-info .title {
             font-size: 1.1rem;
-            /*max-width: 80%;*/
+            color: #5A6169 !important;
+
         }
 
-        .movielist li:nth-of-type(n+9){
-            display: none!important;
+        .movielist li:nth-of-type(n+10) {
+            display: none !important;
+        }
+
+        .coming-movie-container > a {
+            display: inline-block;
+            height: 198px;
+            width: 30px;
+            line-height: 198px;
+        }
+
+        .comingmv-list {
+            padding: 0;
+            margin: 0;
+        }
+
+        .transition1 {
+            transition: .6s all;
         }
     </style>
 </head>
 <body style="padding-right: 0!important;">
 <!--导航-->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-        </ul>
-
-        <!--右侧导航-->
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item" th:if="${session.user == null}">
-                <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal">登录</a>
-            </li>
-
-            <li class="nav-item" th:unless="${session.user == null}">
-                <a href="#" th:text="${session.user.getLogin()}"></a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<div th:replace="components/nav::nav"></div>
 
 <!--轮播图-->
-<!--占位置-->
-<div style="margin-top: 68px"></div>
+
 <div class="carousel slide" data-ride="carousel" id="carousel">
 
     <!--指示符-->
@@ -136,26 +124,58 @@
 <div class="container isplay">
     <h3>热映电影</h3>
     <div> <!--用显示数据-->
-        <ul class="d-flex flex-wrap p-0 movielist" id="isplay">
-            <li class="d-flex mt-md-4 mr-2" style="width: 32%;" th:each="user:${#numbers.sequence(1,40)}">
-                <img src="images/testF.jpg" alt="">
-                <div class="ml-2 movie-info d-flex flex-column justify-content-around ">
-                    <p class="title">小Q杰佛i阿娇交锋是的接送i地方按时交付</p>
+        <ul class="d-flex flex-wrap p-0 movielist row" id="isplay">
+            <li class="d-flex mt-3 col-sm-12 col-lg-4 col-md-6" th:each="user:${#numbers.sequence(1,40)}">
+                <a href="/movieDetail">
+                    <img src="images/testF.jpg" alt="">
+                </a>
+                <div class="movie-info ml-2 d-flex flex-column justify-content-around">
+                    <p><a href="/movieDetail" class="title text-primary">小Q杰佛i阿娇交锋是的接送i地方按时交付</a></p>
                     <p>148分钟</p>
                     <button class="btn btn-info btn-sm w-50">选座购票</button>
                 </div>
             </li>
         </ul>
     </div>
+
     <div class="text-center">
-        <button class="btn btn-sm btn-light btn-pill" id="expand">
+        <button class="btn btn-sm btn-light btn-pill" id="expand" title="查看更多热映电影">
             <i class="fa fa-arrow-down"></i>
             <span class="font-weight-bold">更多</span>
         </button>
     </div>
 </div>
+<div class="container isplay position-relative">
+    <h3>即将上映</h3>
+    <div class="coming-movie-container row ml-2">
+        <!--两个按钮 前进后退-->
+        <a href="#" class="position-absolute pageturn text-center" style="left: -30px;" id="prevBtn" data-name="prev">
+            <i class="fa fa-chevron-left fa-2x"></i>
+        </a>
+        <a href="#" class="position-absolute pageturn text-center" style="right: -30px;" id="nextBtn" data-name="next">
+            <i class="fa fa-chevron-right fa-2x"></i>
+        </a>
+        <div class="position-relative overflow-hidden" style="width: 1110px;">
+            <!--动态计算宽度-->
+            <ul class="comingmv-list position-relative transition1" style="left: 0px;width: 4000px;">
+                <li class="comingmv-item mt-2 d-inline-block" style="width: 150px;"
+                    th:each="cominglist:${#numbers.sequence(1,20)}">
+                    <div class="text-center">
+                        <img src="images/testF.jpg" alt="小q"/>
+                        <div class="">
+                            <div>小Q</div>
+                            <div>10/1 <small>即将上映</small></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
 
 
+<div th:replace="components/footer::footer"></div>
 <!--模态框-->
 <div class="modal" id="loginModal">
     <div class="modal-dialog">
@@ -169,34 +189,34 @@
             <div class="modal-body">
 
                 <!-- 模态框表单 -->
-                <form action="">
+                <form th:action="@{/login}" method="post">
                     <div class="form-group">
                         <div class="input-group input-group-seamless">
                             <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fa fa-user"></i>
-                    </span>
+                                <span class="input-group-text">
+                                    <i class="fa fa-user"></i>
+                                </span>
                             </div>
-                            <input type="text" class="form-control" placeholder="用户名">
+                            <input type="text" class="form-control" name="email" placeholder="用户名/邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group input-group-seamless">
                             <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fa fa-user"></i>
-                    </span>
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock"></i>
+                                </span>
                             </div>
-                            <input type="text" class="form-control" placeholder="用户名">
+                            <input type="password" class="form-control" name="password" placeholder="密码">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <button class="btn btn-primary">
-                            <span class="fa fa-key"> 登录</span>
+                        <button class="btn btn-primary" type="submit">
+                            <span class="fa fa-sign-in" aria-hidden="true"> 登录</span>
                         </button>
                         <small class="text-muted ml-2">
-                            <a href="#">还没账号？</a>
+                            <a href="/register">还没账号？</a>
                         </small>
                     </div>
                 </form>
@@ -212,7 +232,8 @@
     </div>
 </div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<!--/*@thymesVar id="errMsg" type=""*/-->
+<div class="alert alert-success position-absolute" style="top: 50px;z-index: 9999999;" th:if="${param.err}" th:text="${param.err?'登录失败':'登录成功'}" data-dismiss="alert"></div>
 <script>
     $('#loginModal').on('shown.bs.modal', function () {
         var $this = $(this);
@@ -226,10 +247,55 @@
         });
     });
 
+    let btnNowValue = $('.comingmv-list').position().left;
+    // 即将上映翻页的两个按钮
+    $('.pageturn').click(function (e) {
+        let name = $(this).data('name');
+        if (name == 'next') {
+            // 右翻页
+            console.log(btnNowValue)
+            let rightPx = btnNowValue = add(btnNowValue, -300);
+            $('.comingmv-list').css('left', rightPx + 'px');
+            $('#prevBtn').css('display', 'inline-block')
+        } else {
+            // 向左
+            let leftPx = btnNowValue = add(btnNowValue, 300) >= 0 ? 0 : add(btnNowValue, 300);
+            if (leftPx == 0) {
+                $('#prevBtn').css('display', 'none')
+            }
+            $('.comingmv-list').css('left', leftPx + 'px');
+        }
+
+        return false;
+    })
+
+    // 更多按钮
     $('#expand').click(function () {
-        $(".movielist li:nth-of-type(n+9)").css("cssText","display:flex!important;width:32%");
+        $(".movielist li:nth-of-type(n+9)").css("cssText", "display:flex!important;width:32%");
         $('#expand').hide();
     })
+    $(function () {
+        if (btnNowValue == 0) {
+            $('#prevBtn').css('display', 'none')
+        }
+
+        window.setTimeout(() => {
+            $('[data-dismiss="alert"]').alert('close');
+        },2000)
+    })
+
+
+
+    /**
+     * 解决计算精度问题
+     * @param arg1
+     * @param arg2
+     * @returns {number}
+     */
+    function add(arg1, arg2) {
+        return (Math.round(arg1 * 100) + Math.round(arg2 * 100)) / 100;
+    }
+
 </script>
 
 </body>

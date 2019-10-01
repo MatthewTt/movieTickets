@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.liu.moiveticket.dao.UserMapper">
+
+<!--    查询全部必须返回 resultType-->
+    <select id="findUserByEmail"  resultType="cn.liu.moiveticket.pojo.User">
+        select * from users where email=#{email}
+    </select>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into users(username, password, access_type) VALUES (#{username},#{password}, #{access_type})
+    </insert>
+
+    <insert id="registerUser">
+        insert into users(username, password, access_type, email) VALUES (#{username},#{password}, #{access_type},#{email})
+    </insert>
+</mapper>
